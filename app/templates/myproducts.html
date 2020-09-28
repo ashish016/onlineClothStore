@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Posted List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <h1>Your Posts </h1>
+    <script type="text/javascript">
+     function editdata(a)
+     {
+            console.log("Yes I am inside Java Script");
+             xmlhttp = new XMLHttpRequest();
+             xmlhttp.onreadystatechange=function()
+             {
+              document.getElementById("test").innerHTML=xmlhttp.responseText;
+
+             }
+             xmlhttp.open("get","editajaxdata?q="+a,true);
+             xmlhttp.send();
+
+
+     }
+     function showvalue() {
+        document.getElementById("test").innerHTML="Hello Ashish"
+     }
+
+    </script>
+</head>
+<body>
+    <table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Product ID</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Available Quantity</th>
+      <th scope="col">Price</th>
+      <th scope="col">edit</th>
+      <th scope="col">Drop</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {{ res }}
+  {% for items in res %}
+
+    <tr>
+      <th scope="row">{{ items.product_Id}}</th>
+      <td>{{items.product_Name}}</td>
+      <td>{{ items.product_Quantity}}</td>
+      <td>{{items.product_Price}}</td>
+      <td><button onclick="editdata('{{ items.product_Id }}')"  class="btn btn-warning">Edit</button></td>
+
+    <td><button type="submit" class="btn btn-danger" >Delete</button></td>
+
+
+    </tr>
+    {% endfor %}
+
+  <div id="test"></div>
+  </tbody>
+</table>
+</body>
+</html>

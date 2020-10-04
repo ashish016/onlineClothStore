@@ -17,7 +17,9 @@ urlpatterns = [
     path('view_My_Products',views.view_My_Products,name='view_My_Products'),
     path('ajaxdata',views.ajaxdata,name='ajaxdata'),
     path('editajaxdata',views.editajaxdata,name='editajaxdata'),
-    path('logout',views.logout,name='logout')
+    path('logout',views.logout,name='logout'),
+    path('api-products',views.product_api,name="product_api"),
+    path('api-dummy',views.dummy_api,name="dummy_api"),
 
 
 ]

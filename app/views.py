@@ -1,8 +1,9 @@
+from django.contrib import auth
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.decorators.cache import cache_control
 
-from app.models import Customer,Product
+from app.models import Customer,Product,CustomAuth
 from app.extrafunctions import random_with_N_digits,showTrendings
 
 
@@ -80,7 +81,6 @@ def view_My_Products(request):
     args['product_list']=data
     for test in data:
         print(test.product_Name)
-
     return render(request,'myproducts.html',args)
 
 
@@ -110,3 +110,30 @@ def logout(request):
         # some code
         return
     return render(request,'index.html')
+
+from django.http import JsonResponse
+def product_api(request):
+    if request.GET.get("price_constraint") is None:
+        products = Product.objects.all()
+    else:
+        products = Product.objects.filter(product_Price__lte=float(request.GET.get("price_constraint")))
+    print(products.values())
+    return JsonResponse(list(products.values()),safe=False)
+
+def signin(request):
+    username = request.POST.get("username")
+    print(type(username))
+    password = request.POST.get("password")
+    print(password)
+    user = auth.authenticate(request,username=username,password=password)
+    customAuth = CustomAuth.objects.get(user=user)
+    auth.login(request,user)
+    return JsonResponse(customAuth.name,safe=False)
+
+def dummy_api(request):
+
+    if request.user.is_authenticated:
+        logged_in_user = request.user.id
+    else:
+        logged_in_user = False
+    return JsonResponse(logged_in_user,safe=False)
